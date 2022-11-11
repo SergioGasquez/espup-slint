@@ -892,6 +892,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "espup-slint"
+version = "0.1.0"
+dependencies = [
+ "slint",
+ "slint-build",
+]
+
+[[package]]
 name = "euclid"
 version = "0.22.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1103,14 +1111,6 @@ dependencies = [
  "pin-project-lite",
  "pin-utils",
  "slab",
-]
-
-[[package]]
-name = "gallery"
-version = "0.3.2"
-dependencies = [
- "slint",
- "slint-build",
 ]
 
 [[package]]

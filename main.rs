@@ -16,5 +16,7 @@ pub fn main() {
     console_error_panic_hook::set_once();
 
     let app = App::new();
+    app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
+
     app.run();
 }

@@ -1,10 +1,7 @@
-# Copyright © SixtyFPS GmbH <info@slint-ui.com>
-# SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-Slint-commercial
-
 [package]
-name = "gallery"
-version = "0.3.2"
-authors = ["Slint Developers <info@slint-ui.com>"]
+name = "espup-slint"
+version = "0.1.0"
+authors = ["Sergio Gasquez Arcos <sergio.gasquez@gmail.com>"]
 edition = "2021"
 build = "build.rs"
 license = "GPL-3.0-only OR LicenseRef-Slint-commercial"
@@ -12,7 +9,7 @@ publish = false
 
 [[bin]]
 path = "main.rs"
-name = "gallery"
+name = "espup-slint"
 
 [dependencies]
 slint = "0.3"

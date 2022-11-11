@@ -11,9 +11,11 @@ App := Window {
     title: "Espup";
     icon: @image-url("./esp-rs.png");
 
+    property <string> espup-ui-version: "x.y.z";
+
     HorizontalLayout {
         side-bar := SideBar {
-            title: "Espup";
+            title: "Espup  \{espup-ui-version}";
             model: [ "Install", "Controls", "ListView", "TextEdit"];
         }
 
