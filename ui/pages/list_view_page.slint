@@ -10,22 +10,6 @@ export ListViewPage := Page {
 
     HorizontalBox {
         vertical-stretch: 1;
-        GroupBox {
-            title: "ListView";
-
-            ListView {
-                vertical-stretch: 0;
-                for i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] : HorizontalBox {
-                   Image {
-                        width: 24px;
-                        source: @image-url("../../thumbsup.png");
-                   }
-                   Text {
-                        text: "Item " + i;
-                   }
-                }
-            }
-        }
 
         GroupBox {
             title: "StandardListView";
