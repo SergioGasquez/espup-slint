@@ -11,14 +11,14 @@ SideBarItem := Rectangle {
 
     min-height: l.preferred-height;
 
-    state := Rectangle {  
+    state := Rectangle {
         opacity: 0;
         background: StyleMetrics.window-background;
 
         animate opacity { duration: 150ms; }
     }
-    
-    l := HorizontalLayout {  
+
+    l := HorizontalLayout {
         y: (parent.height - height) / 2;
         padding: StyleMetrics.layout-padding;
         spacing: 0px;
@@ -34,7 +34,7 @@ SideBarItem := Rectangle {
         height: 100%;
     }
 
-    states [  
+    states [
         pressed when touch.pressed : {
             state.opacity: 0.8;
         }
@@ -62,13 +62,13 @@ export SideBar := Rectangle {
     accessible-role: tab;
     accessible-delegate-focus: current-focused >= 0 ? current-focused : current-item;
 
-    Rectangle {  
+    Rectangle {
         background: StyleMetrics.window-background.darker(0.2);
 
         fs := FocusScope {
             width: 0px; // Do not react on clicks
             property<int> focused-tab: 0;
-    
+
             key-pressed(event) => {
                 if (event.text == "\n") {
                      current-item = current-focused;
@@ -84,7 +84,7 @@ export SideBar := Rectangle {
                 }
                 return reject;
             }
-    
+
             key-released(event) => {
                 if (event.text == " ") {
                      current-item = current-focused;
@@ -94,8 +94,8 @@ export SideBar := Rectangle {
             }
         }
     }
-   
-    VerticalLayout {      
+
+    VerticalLayout {
         padding-top: StyleMetrics.layout-padding;
         padding-bottom: StyleMetrics.layout-padding;
         spacing: StyleMetrics.layout-spacing;
@@ -106,9 +106,9 @@ export SideBar := Rectangle {
             horizontal-alignment: center;
         }
 
-        navigation := VerticalLayout { 
+        navigation := VerticalLayout {
             alignment: start;
-            vertical-stretch: 0; 
+            vertical-stretch: 0;
             for item[index] in model : SideBarItem {
                 has-focus: index == root.current-focused;
                 text: item;
@@ -117,13 +117,13 @@ export SideBar := Rectangle {
             }
         }
 
-        VerticalLayout {  
-            bottom := VerticalLayout {  
+        VerticalLayout {
+            bottom := VerticalLayout {
                 padding-left: StyleMetrics.layout-padding;
                 padding-right: StyleMetrics.layout-padding;
 
                 @children
              }
-        }    
+        }
     }
 }
