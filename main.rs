@@ -18,11 +18,26 @@ pub fn main() {
     let app = App::new();
     app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
 
-    let xtensa_version = app.global::<Espup>().get_xtensa_rust_version();
-    println!("Xtensa Version: {}", xtensa_version);
+    // Set default
+    println!(
+        "Xtensa Version: {}",
+        app.global::<Espup>().get_xtensa_rust_version()
+    );
     app.global::<Espup>()
         .set_xtensa_rust_version("aaaaaa0".into());
-    println!("Xtensa Version: {}", xtensa_version);
+    println!(
+        "Xtensa Version: {}",
+        app.global::<Espup>().get_xtensa_rust_version()
+    );
+
+    // Button callback
+    // let ui_handle = app.as_weak();
+    app.global::<Espup>().on_install(move || {
+        println!("Button pressed");
+        // let ui = ui_handle.unwrap();
+        // println!("Esp32: {}", ui.global::<InstallPage>().get_esp32());
+        // ui.set_counter(ui.get_counter() + 1);
+    });
 
     app.run();
 }
