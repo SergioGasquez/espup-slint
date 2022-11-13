@@ -77,7 +77,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            placeholder-text: "1.65.0.1";
+            text: "1.65.0.1";
         }
     }
 
@@ -86,7 +86,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            placeholder-text: "nightly";
+            text: "nightly";
         }
     }
 
@@ -95,7 +95,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            placeholder-text: "export-esp.ps1";
+            text: "export-esp.ps1";
         }
     }
 
@@ -131,6 +131,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
          ComboBox {
+            current-value: "none";
             model: [ "none", "release/v4.4", "release/v5.0", "master", "v4.4.1", "v4.4.2", "v4.4.3"];
         }
     }
