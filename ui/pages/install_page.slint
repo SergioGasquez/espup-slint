@@ -6,9 +6,17 @@ import { Button, GroupBox, SpinBox, ComboBox, CheckBox, LineEdit, TabWidget, Ver
 import { Page } from "page.slint";
 
 
+export global Espup := {
+    property <string> xtensa-rust-version: "1.66";
+    // property <string> export-file;
+    // property <string> default-host;
+
+}
+
+
 export InstallPage := Page {
-   title: "Install";
-    description: "This page gives an overview of the default widget set provided by Slint. The widgets are available in different styles native, fluent-(dark/light) and material-(dark/light). The widgets can be imported from \"std-widgets.slint\".";
+    title: "Install";
+    description: "Install the required toolchains for developing applications in Rust for Espressif SoC's.";
 
     GroupBox {
         title: "Targets:";
@@ -77,7 +85,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            text: "1.65.0.1";
+            text: Espup.xtensa-rust-version;
         }
     }
 
@@ -102,20 +110,19 @@ export InstallPage := Page {
     GroupBox {
         title: "Default Host";
         vertical-stretch: 0;
-
          ComboBox {
             model: ["x86_64-pc-windows-msvc", "x86_64-pc-windows-gnu", "x86_64-unknown-linux"];
         }
     }
 
-    GroupBox {
-        title: "LLVM Version";
-        vertical-stretch: 0;
+    // GroupBox {
+    //     title: "LLVM Version";
+    //     vertical-stretch: 0;
 
-         ComboBox {
-            model: ["15"];
-        }
-    }
+    //      ComboBox {
+    //         model: ["15"];
+    //     }
+    // }
 
     GroupBox {
         title: "Log Level";
@@ -136,13 +143,12 @@ export InstallPage := Page {
         }
     }
 
-
-
-
     GroupBox {
         Button {
             text: "Install";
-            // Add callback
+            // clicked => {
+            //     install();
+            // }
         }
 
     }
