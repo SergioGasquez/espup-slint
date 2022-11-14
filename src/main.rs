@@ -31,20 +31,9 @@ pub fn main() {
         let ui_handle = app.as_weak();
         move || {
             println!("Install button clicked");
-            // println!("Button pressed");
             let ui = ui_handle.unwrap();
             let esp32 = ui.global::<Espup>().get_esp32_value();
             println!("ESP32: {}", esp32);
-        }
-    });
-
-    app.global::<Espup>().on_esp32({
-        let ui_handle = app.as_weak();
-        move || {
-            let ui = ui_handle.unwrap();
-            let esp32 = ui.global::<Espup>().get_esp32_value();
-            ui.global::<Espup>().set_esp32_value(!esp32);
-            println!("Esp32 updated: {}", !esp32);
         }
     });
 
