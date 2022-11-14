@@ -26,10 +26,6 @@ pub fn main() {
     // );
     app.global::<Espup>()
         .set_xtensa_rust_version("1.65.0.1".into());
-    // println!(
-    //     "Xtensa Version: {}",
-    //     app.global::<Espup>().get_xtensa_rust_version()
-    // );
 
     app.global::<Espup>().on_esp32(move || {
         esp32 = !esp32;
@@ -37,14 +33,15 @@ pub fn main() {
     });
 
     // Button callback
-    let ui_handle = app.as_weak();
+    // let ui_handle = app.as_weak();
     app.global::<Espup>().on_install(move || {
+        println!("Install clicked");
         // println!("Button pressed");
         // let ui = ui_handle.unwrap();
         // println!("ESP32: {}", ui.get_esp32());
         // let esp32 = ui.global::<InstallPage>().get_esp32();
         // println!("Esp32: {}", ui.global::<Espup>().get_esp32());
-        println!("Esp32: {}", esp32);
+        // println!("Esp32: {}", esp32);
     });
 
     app.run();
