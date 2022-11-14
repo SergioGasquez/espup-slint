@@ -84,6 +84,10 @@ pub fn main() -> Result<()> {
                 extra_crates.insert(Crate::new("sccache"));
             }
             println!("Extra crates: {:#?}", extra_crates);
+
+            // Host triple
+            let host_triple = ui.global::<Espup>().get_default_host();
+            println!("Host triple: {}", host_triple);
         }
     });
 
