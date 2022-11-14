@@ -10,9 +10,12 @@ export global Espup := {
     property <string> xtensa-rust-version;
     property <string> export-file;
     property <string> default-host;
+    property <bool> esp32;
+
 
 
     callback install();
+    callback esp32();
 
 }
 
@@ -29,6 +32,9 @@ export InstallPage := Page {
             esp32 := CheckBox {
                 text: "ESP32";
                 checked: false;
+                toggled => {
+                    Espup.esp32();
+                }
             }
 
             esp32s2 := CheckBox {
