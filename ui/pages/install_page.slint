@@ -5,7 +5,7 @@ import { Button, GroupBox, ComboBox, CheckBox, LineEdit, HorizontalBox  } from "
 import { Page } from "page.slint";
 
 
-export global Espup := {
+export global InstallArgs := {
     property <string> xtensa-rust-version;
     property <string> export-file;
     property <string> default-host;
@@ -41,27 +41,27 @@ export InstallPage := Page {
         HorizontalBox {
             esp32 := CheckBox {
                 text: "ESP32";
-                checked <=> Espup.esp32-value;
+                checked <=> InstallArgs.esp32-value;
             }
 
             esp32s2 := CheckBox {
                 text: "ESP32-S2";
-                checked <=> Espup.esp32s2-value;
+                checked <=> InstallArgs.esp32s2-value;
             }
 
             esp32s3 := CheckBox {
                 text: "ESP32-S3";
-                checked <=> Espup.esp32s3-value;
+                checked <=> InstallArgs.esp32s3-value;
             }
 
             esp32c2 := CheckBox {
                 text: "ESP32-C2";
-                checked <=> Espup.esp32c2-value;
+                checked <=> InstallArgs.esp32c2-value;
             }
 
             esp32c3 := CheckBox {
                 text: "ESP32-C3";
-                checked <=> Espup.esp32c3-value;
+                checked <=> InstallArgs.esp32c3-value;
             }
         }
 
@@ -74,22 +74,22 @@ export InstallPage := Page {
         HorizontalBox {
             espflash := CheckBox {
                 text: "espflash";
-                checked <=> Espup.espflash-value;
+                checked <=> InstallArgs.espflash-value;
             }
 
             cargo-espflash := CheckBox {
                 text: "cargo-espflash";
-                checked <=> Espup.cargo-espflash-value;
+                checked <=> InstallArgs.cargo-espflash-value;
             }
 
             ldproxy := CheckBox {
                 text: "ldproxy";
-                checked <=>  Espup.ldproxy-value;
+                checked <=>  InstallArgs.ldproxy-value;
             }
 
             sccache := CheckBox {
                 text: "sccache";
-                checked <=> Espup.sccache-value;
+                checked <=> InstallArgs.sccache-value;
             }
         }
 
@@ -100,7 +100,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            text <=> Espup.xtensa-rust-version;
+            text <=> InstallArgs.xtensa-rust-version;
         }
     }
 
@@ -109,7 +109,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            text <=> Espup.nightly-version;
+            text <=> InstallArgs.nightly-version;
         }
     }
 
@@ -118,7 +118,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            text <=> Espup.export-file;
+            text <=> InstallArgs.export-file;
         }
     }
 
@@ -126,7 +126,7 @@ export InstallPage := Page {
         title: "Default Host";
         vertical-stretch: 0;
         ComboBox {
-            current-value <=> Espup.default-host;
+            current-value <=> InstallArgs.default-host;
             model: [ "x86_64-unknown-linux", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "aarch64-apple-darwin","x86_64-pc-windows-msvc", "x86_64-pc-windows-gnu",];
         }
     }
@@ -144,7 +144,7 @@ export InstallPage := Page {
         title: "Log Level";
         vertical-stretch: 0;
         ComboBox {
-            current-value <=> Espup.log-level;
+            current-value <=> InstallArgs.log-level;
             model: ["debug", "info", "warn", "error"];
         }
     }
@@ -154,13 +154,13 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
          ComboBox {
-            current-value <=> Espup.esp-idf-version;
+            current-value <=> InstallArgs.esp-idf-version;
             model: [ "none", "release/v4.4", "release/v5.0", "master", "v4.4.1", "v4.4.2", "v4.4.3"];
             selected(version) => {
                 if (version != "none") {
-                    Espup.ldproxy-value = true;
+                    InstallArgs.ldproxy-value = true;
                 } else {
-                    Espup.ldproxy-value = false;
+                    InstallArgs.ldproxy-value = false;
                 }
              }
         }
@@ -170,13 +170,13 @@ export InstallPage := Page {
 
         minimal := CheckBox {
             text: "Minify Installation?";
-            checked <=> Espup.profile-minimal;
+            checked <=> InstallArgs.profile-minimal;
         }
 
         Button {
             text: "Install";
             clicked => {
-                Espup.install();
+                InstallArgs.install();
             }
         }
 

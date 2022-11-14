@@ -35,15 +35,15 @@ pub fn main() -> Result<()> {
     app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
 
     // Set defaults
-    app.global::<Espup>()
+    app.global::<InstallArgs>()
         .set_xtensa_rust_version(latest_xtensa_rust.into());
-    app.global::<Espup>()
+    app.global::<InstallArgs>()
         .set_default_host(host_triple.to_string().into());
-    app.global::<Espup>()
+    app.global::<InstallArgs>()
         .set_export_file(DEFAULT_EXPORT_FILE.into());
 
     // Button callback
-    app.global::<Espup>().on_install({
+    app.global::<InstallArgs>().on_install({
         let ui_handle = app.as_weak();
         move || {
             println!("Install button clicked");
@@ -52,33 +52,33 @@ pub fn main() -> Result<()> {
             let ui = ui_handle.unwrap();
 
             // Get targets
-            if ui.global::<Espup>().get_esp32_value() {
+            if ui.global::<InstallArgs>().get_esp32_value() {
                 targets.insert(Target::ESP32);
             }
-            if ui.global::<Espup>().get_esp32s2_value() {
+            if ui.global::<InstallArgs>().get_esp32s2_value() {
                 targets.insert(Target::ESP32S2);
             }
-            if ui.global::<Espup>().get_esp32s3_value() {
+            if ui.global::<InstallArgs>().get_esp32s3_value() {
                 targets.insert(Target::ESP32S3);
             }
-            if ui.global::<Espup>().get_esp32c2_value() {
+            if ui.global::<InstallArgs>().get_esp32c2_value() {
                 targets.insert(Target::ESP32C2);
             }
-            if ui.global::<Espup>().get_esp32c3_value() {
+            if ui.global::<InstallArgs>().get_esp32c3_value() {
                 targets.insert(Target::ESP32C3);
             }
 
             // Get extra crates
-            if ui.global::<Espup>().get_espflash_value() {
+            if ui.global::<InstallArgs>().get_espflash_value() {
                 selected_crates.insert(Crate::new("espflash"));
             }
-            if ui.global::<Espup>().get_cargo_espflash_value() {
+            if ui.global::<InstallArgs>().get_cargo_espflash_value() {
                 selected_crates.insert(Crate::new("cargo-espflash"));
             }
-            if ui.global::<Espup>().get_ldproxy_value() {
+            if ui.global::<InstallArgs>().get_ldproxy_value() {
                 selected_crates.insert(Crate::new("ldproxy"));
             }
-            if ui.global::<Espup>().get_sccache_value() {
+            if ui.global::<InstallArgs>().get_sccache_value() {
                 selected_crates.insert(Crate::new("sccache"));
             }
             let extra_crates = if selected_crates.is_empty() {
@@ -88,29 +88,32 @@ pub fn main() -> Result<()> {
             };
 
             // Host triple
-            let host_triple = ui.global::<Espup>().get_default_host();
+            let host_triple = ui.global::<InstallArgs>().get_default_host();
 
             // Log Level
-            let log_level = ui.global::<Espup>().get_log_level().to_string();
+            let log_level = ui.global::<InstallArgs>().get_log_level().to_string();
 
             // Export file
-            let export_file = ui.global::<Espup>().get_export_file();
+            let export_file = ui.global::<InstallArgs>().get_export_file();
             let export_file = Some(PathBuf::from(export_file.as_str()));
 
             // ESP-IDF version
-            let esp_idf_version = if (ui.global::<Espup>().get_esp_idf_version()) == "none" {
+            let esp_idf_version = if (ui.global::<InstallArgs>().get_esp_idf_version()) == "none" {
                 None
             } else {
-                Some(ui.global::<Espup>().get_esp_idf_version().to_string())
+                Some(ui.global::<InstallArgs>().get_esp_idf_version().to_string())
             };
 
             // Xtensa Rust Toolhain version
-            let xtensa_rust_version = ui.global::<Espup>().get_xtensa_rust_version().to_string();
+            let xtensa_rust_version = ui
+                .global::<InstallArgs>()
+                .get_xtensa_rust_version()
+                .to_string();
 
             // Nightly Rust Toolhain version
-            let nightly_version = ui.global::<Espup>().get_nightly_version().to_string();
+            let nightly_version = ui.global::<InstallArgs>().get_nightly_version().to_string();
 
-            let profile_minimal = ui.global::<Espup>().get_profile_minimal();
+            let profile_minimal = ui.global::<InstallArgs>().get_profile_minimal();
 
             let opts = InstallOpts {
                 default_host: Some(host_triple.into()),
