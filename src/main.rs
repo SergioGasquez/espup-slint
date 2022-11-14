@@ -10,6 +10,12 @@ use espup::{
     toolchain::rust::XtensaRust, InstallOpts,
 };
 
+// TODO: Get this from the espup
+#[cfg(windows)]
+const DEFAULT_EXPORT_FILE: &str = "export-esp.ps1";
+#[cfg(not(windows))]
+const DEFAULT_EXPORT_FILE: &str = "export-esp.sh";
+
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
 
@@ -35,6 +41,8 @@ pub fn main() -> Result<()> {
         .set_xtensa_rust_version(latest_xtensa_rust.into());
     app.global::<Espup>()
         .set_default_host(host_triple.to_string().into());
+    app.global::<Espup>()
+        .set_export_file(DEFAULT_EXPORT_FILE.into());
 
     // Button callback
     app.global::<Espup>().on_install({
