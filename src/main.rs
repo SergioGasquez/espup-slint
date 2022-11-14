@@ -3,7 +3,7 @@
 #![deny(unsafe_code)]
 
 use anyhow::Result;
-use std::collections::HashSet;
+use std::{collections::HashSet, path::PathBuf};
 
 use espup::{
     host_triple::get_host_triple, install, targets::Target, toolchain::rust::Crate,
@@ -28,9 +28,7 @@ pub fn main() -> Result<()> {
     #[cfg(all(debug_assertions, target_arch = "wasm32"))]
     console_error_panic_hook::set_once();
 
-    let mut targets: HashSet<Target> = HashSet::new();
     let host_triple = get_host_triple(None)?;
-    let mut extra_crates: HashSet<Crate> = HashSet::new();
     let latest_xtensa_rust = XtensaRust::get_latest_version()?;
 
     let app = App::new();
@@ -49,9 +47,11 @@ pub fn main() -> Result<()> {
         let ui_handle = app.as_weak();
         move || {
             println!("Install button clicked");
+            let mut selected_crates: HashSet<Crate> = HashSet::new();
+            let mut targets: HashSet<Target> = HashSet::new();
             let ui = ui_handle.unwrap();
+
             // Get targets
-            targets.clear();
             if ui.global::<Espup>().get_esp32_value() {
                 targets.insert(Target::ESP32);
             }
@@ -67,47 +67,63 @@ pub fn main() -> Result<()> {
             if ui.global::<Espup>().get_esp32c3_value() {
                 targets.insert(Target::ESP32C3);
             }
-            println!("Targets: {:#?}", targets);
 
             // Get extra crates
-            extra_crates.clear();
             if ui.global::<Espup>().get_espflash_value() {
-                extra_crates.insert(Crate::new("espflash"));
+                selected_crates.insert(Crate::new("espflash"));
             }
             if ui.global::<Espup>().get_cargo_espflash_value() {
-                extra_crates.insert(Crate::new("cargo-espflash"));
+                selected_crates.insert(Crate::new("cargo-espflash"));
             }
             if ui.global::<Espup>().get_ldproxy_value() {
-                extra_crates.insert(Crate::new("ldproxy"));
+                selected_crates.insert(Crate::new("ldproxy"));
             }
             if ui.global::<Espup>().get_sccache_value() {
-                extra_crates.insert(Crate::new("sccache"));
+                selected_crates.insert(Crate::new("sccache"));
             }
-            println!("Extra crates: {:#?}", extra_crates);
+            let extra_crates = if selected_crates.is_empty() {
+                None
+            } else {
+                Some(selected_crates)
+            };
 
             // Host triple
             let host_triple = ui.global::<Espup>().get_default_host();
-            println!("Host triple: {}", host_triple);
 
             // Log Level
-            let log_level = ui.global::<Espup>().get_log_level();
-            println!("Log level: {}", log_level);
+            let log_level = ui.global::<Espup>().get_log_level().to_string();
 
             // Export file
             let export_file = ui.global::<Espup>().get_export_file();
-            println!("Export file: {}", export_file);
+            let export_file = Some(PathBuf::from(export_file.as_str()));
 
             // ESP-IDF version
-            let esp_idf_version = ui.global::<Espup>().get_esp_idf_version();
-            println!("ESP-IDF version: {}", esp_idf_version);
+            let esp_idf_version = if (ui.global::<Espup>().get_esp_idf_version()) == "none" {
+                None
+            } else {
+                Some(ui.global::<Espup>().get_esp_idf_version().to_string())
+            };
 
             // Xtensa Rust Toolhain version
-            let xtensa_rust_version = ui.global::<Espup>().get_xtensa_rust_version();
-            println!("Xtensa Rust version: {}", xtensa_rust_version);
+            let xtensa_rust_version = ui.global::<Espup>().get_xtensa_rust_version().to_string();
 
             // Nightly Rust Toolhain version
-            let nightly_version = ui.global::<Espup>().get_nightly_version();
-            println!("Nightly Rust version: {}", nightly_version);
+            let nightly_version = ui.global::<Espup>().get_nightly_version().to_string();
+
+            let opts = InstallOpts {
+                default_host: Some(host_triple.into()),
+                esp_idf_version,
+                export_file,
+                extra_crates,
+                llvm_version: "15".into(),
+                log_level,
+                nightly_version,
+                profile_minimal: true,
+                targets: targets.clone(),
+                toolchain_version: Some(xtensa_rust_version),
+            };
+            println!("Install options: {:#?}", opts);
+            // install(opts);
         }
     });
 
