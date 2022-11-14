@@ -110,6 +110,8 @@ pub fn main() -> Result<()> {
             // Nightly Rust Toolhain version
             let nightly_version = ui.global::<Espup>().get_nightly_version().to_string();
 
+            let profile_minimal = ui.global::<Espup>().get_profile_minimal();
+
             let opts = InstallOpts {
                 default_host: Some(host_triple.into()),
                 esp_idf_version,
@@ -118,7 +120,7 @@ pub fn main() -> Result<()> {
                 llvm_version: "15".into(),
                 log_level,
                 nightly_version,
-                profile_minimal: true,
+                profile_minimal,
                 targets: targets.clone(),
                 toolchain_version: Some(xtensa_rust_version),
             };

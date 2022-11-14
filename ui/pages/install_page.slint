@@ -12,6 +12,7 @@ export global Espup := {
     property <string> log-level: "info";
     property <string> esp-idf-version: "none";
     property <string> nightly-version: "nightly";
+    property <bool> profile-minimal: true;
     // Targets
     property <bool> esp32-value: true;
     property <bool> esp32s2-value: true;
@@ -166,6 +167,12 @@ export InstallPage := Page {
     }
 
     GroupBox {
+
+        minimal := CheckBox {
+            text: "Minify Installation?";
+            checked <=> Espup.profile-minimal;
+        }
+
         Button {
             text: "Install";
             clicked => {
