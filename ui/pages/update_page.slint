@@ -1,0 +1,19 @@
+// Copyright © SixtyFPS GmbH <info@slint-ui.com>
+// SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-Slint-commercial
+
+import { Button, GroupBox } from "std-widgets.slint";
+import { Page } from "page.slint";
+
+export UpdatePage := Page {
+    title: "Update";
+    description: "Allows to update the  required toolchains for developing applications in Rust for Espressif SoC's.";
+    callback update();
+    GroupBox {
+        Button {
+            text: "Update";
+            clicked => {
+                update();
+            }
+        }
+    }
+}
