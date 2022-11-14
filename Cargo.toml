@@ -13,6 +13,8 @@ name = "espup-slint"
 
 [dependencies]
 slint = "0.3"
+espup = { git = "https://github.com/esp-rs/espup.git", branch = "feature/lib" }
+
 
 [build-dependencies]
 slint-build = "0.3"

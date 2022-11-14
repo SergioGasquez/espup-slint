@@ -1,7 +1,10 @@
 // Copyright © SixtyFPS GmbH <info@slint-ui.com>
 // SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-Slint-commercial
-
 #![deny(unsafe_code)]
+
+use std::collections::HashSet;
+
+use espup::targets::Target;
 
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
@@ -15,6 +18,7 @@ pub fn main() {
     #[cfg(all(debug_assertions, target_arch = "wasm32"))]
     console_error_panic_hook::set_once();
 
+    let mut targets: HashSet<Target> = HashSet::new();
     let app = App::new();
     app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
 
@@ -32,8 +36,24 @@ pub fn main() {
         move || {
             println!("Install button clicked");
             let ui = ui_handle.unwrap();
-            let esp32 = ui.global::<Espup>().get_esp32_value();
-            println!("ESP32: {}", esp32);
+            // Get targets
+            targets.clear();
+            if ui.global::<Espup>().get_esp32_value() {
+                targets.insert(Target::ESP32);
+            }
+            if ui.global::<Espup>().get_esp32s2_value() {
+                targets.insert(Target::ESP32S2);
+            }
+            if ui.global::<Espup>().get_esp32s3_value() {
+                targets.insert(Target::ESP32S3);
+            }
+            if ui.global::<Espup>().get_esp32c2_value() {
+                targets.insert(Target::ESP32C2);
+            }
+            if ui.global::<Espup>().get_esp32c3_value() {
+                targets.insert(Target::ESP32C3);
+            }
+            println!("Targets: {:#?}", targets);
         }
     });
 

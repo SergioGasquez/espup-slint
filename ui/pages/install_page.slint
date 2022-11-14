@@ -9,7 +9,13 @@ export global Espup := {
     property <string> xtensa-rust-version;
     property <string> export-file;
     property <string> default-host;
-    property <bool> esp32-value;
+    // Targets
+    property <bool> esp32-value: true;
+    property <bool> esp32s2-value: true;
+    property <bool> esp32s3-value: true;
+    property <bool> esp32c2-value: true;
+    property <bool> esp32c3-value: true;
+
 
     callback install();
 }
@@ -31,22 +37,22 @@ export InstallPage := Page {
 
             esp32s2 := CheckBox {
                 text: "ESP32-S2";
-                checked: false;
+                checked <=> Espup.esp32s2-value;
             }
 
             esp32s3 := CheckBox {
                 text: "ESP32-S3";
-                checked: false;
+                checked <=> Espup.esp32s3-value;
             }
 
             esp32c2 := CheckBox {
                 text: "ESP32-C2";
-                checked: false;
+                checked <=> Espup.esp32c2-value;
             }
 
             esp32c3 := CheckBox {
                 text: "ESP32-C3";
-                checked: false;
+                checked <=> Espup.esp32c3-value;
             }
         }
 
