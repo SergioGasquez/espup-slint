@@ -100,6 +100,14 @@ pub fn main() -> Result<()> {
             // ESP-IDF version
             let esp_idf_version = ui.global::<Espup>().get_esp_idf_version();
             println!("ESP-IDF version: {}", esp_idf_version);
+
+            // Xtensa Rust Toolhain version
+            let xtensa_rust_version = ui.global::<Espup>().get_xtensa_rust_version();
+            println!("Xtensa Rust version: {}", xtensa_rust_version);
+
+            // Nightly Rust Toolhain version
+            let nightly_version = ui.global::<Espup>().get_nightly_version();
+            println!("Nightly Rust version: {}", nightly_version);
         }
     });
 

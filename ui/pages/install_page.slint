@@ -11,6 +11,7 @@ export global Espup := {
     property <string> default-host;
     property <string> log-level: "info";
     property <string> esp-idf-version: "none";
+    property <string> nightly-version: "nightly";
     // Targets
     property <bool> esp32-value: true;
     property <bool> esp32s2-value: true;
@@ -98,7 +99,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            text: Espup.xtensa-rust-version;
+            text <=> Espup.xtensa-rust-version;
         }
     }
 
@@ -107,7 +108,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            text: "nightly";
+            text <=> Espup.nightly-version;
         }
     }
 
@@ -116,7 +117,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
         LineEdit {
-            text: Espup.export-file;
+            text <=> Espup.export-file;
         }
     }
 
