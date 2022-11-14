@@ -6,7 +6,8 @@ use anyhow::Result;
 use std::collections::HashSet;
 
 use espup::{
-    host_triple::get_host_triple, install, targets::Target, toolchain::rust::Crate, InstallOpts,
+    host_triple::get_host_triple, install, targets::Target, toolchain::rust::Crate,
+    toolchain::rust::XtensaRust, InstallOpts,
 };
 
 #[cfg(target_arch = "wasm32")]
@@ -24,13 +25,14 @@ pub fn main() -> Result<()> {
     let mut targets: HashSet<Target> = HashSet::new();
     let host_triple = get_host_triple(None)?;
     let mut extra_crates: HashSet<Crate> = HashSet::new();
+    let latest_xtensa_rust = XtensaRust::get_latest_version()?;
 
     let app = App::new();
     app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
 
     // Set defaults
     app.global::<Espup>()
-        .set_xtensa_rust_version("1.65.0.1".into());
+        .set_xtensa_rust_version(latest_xtensa_rust.into());
     app.global::<Espup>()
         .set_default_host(host_triple.to_string().into());
 
