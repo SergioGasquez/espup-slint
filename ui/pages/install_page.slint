@@ -9,6 +9,8 @@ export global Espup := {
     property <string> xtensa-rust-version;
     property <string> export-file;
     property <string> default-host;
+    property <string> log-level: "info";
+    property <string> esp-idf-version: "none";
     // Targets
     property <bool> esp32-value: true;
     property <bool> esp32s2-value: true;
@@ -140,7 +142,7 @@ export InstallPage := Page {
         title: "Log Level";
         vertical-stretch: 0;
         ComboBox {
-            current-value: "info";
+            current-value <=> Espup.log-level;
             model: ["debug", "info", "warn", "error"];
         }
     }
@@ -150,7 +152,7 @@ export InstallPage := Page {
         vertical-stretch: 0;
 
          ComboBox {
-            current-value: "none";
+            current-value <=> Espup.esp-idf-version;
             model: [ "none", "release/v4.4", "release/v5.0", "master", "v4.4.1", "v4.4.2", "v4.4.3"];
         }
     }

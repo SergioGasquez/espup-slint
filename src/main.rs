@@ -88,6 +88,18 @@ pub fn main() -> Result<()> {
             // Host triple
             let host_triple = ui.global::<Espup>().get_default_host();
             println!("Host triple: {}", host_triple);
+
+            // Log Level
+            let log_level = ui.global::<Espup>().get_log_level();
+            println!("Log level: {}", log_level);
+
+            // Export file
+            let export_file = ui.global::<Espup>().get_export_file();
+            println!("Export file: {}", export_file);
+
+            // ESP-IDF version
+            let esp_idf_version = ui.global::<Espup>().get_esp_idf_version();
+            println!("ESP-IDF version: {}", esp_idf_version);
         }
     });
 
