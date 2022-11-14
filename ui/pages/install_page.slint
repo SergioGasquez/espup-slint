@@ -83,7 +83,7 @@ export InstallPage := Page {
 
             ldproxy := CheckBox {
                 text: "ldproxy";
-                checked <=> Espup.ldproxy-value;
+                checked <=>  Espup.ldproxy-value;
             }
 
             sccache := CheckBox {
@@ -155,6 +155,13 @@ export InstallPage := Page {
          ComboBox {
             current-value <=> Espup.esp-idf-version;
             model: [ "none", "release/v4.4", "release/v5.0", "master", "v4.4.1", "v4.4.2", "v4.4.3"];
+            selected(version) => {
+                if (version != "none") {
+                    Espup.ldproxy-value = true;
+                } else {
+                    Espup.ldproxy-value = false;
+                }
+             }
         }
     }
 
