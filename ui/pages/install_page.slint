@@ -1,8 +1,7 @@
 // Copyright © SixtyFPS GmbH <info@slint-ui.com>
 // SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-Slint-commercial
 
-import { Button, GroupBox, SpinBox, ComboBox, CheckBox, LineEdit, TabWidget, VerticalBox, HorizontalBox,
-    Slider, SpinBox } from "std-widgets.slint";
+import { Button, GroupBox, ComboBox, CheckBox, LineEdit, HorizontalBox  } from "std-widgets.slint";
 import { Page } from "page.slint";
 
 
@@ -12,11 +11,8 @@ export global Espup := {
     property <string> default-host;
     property <bool> esp32;
 
-
-
     callback install();
     callback esp32();
-
 }
 
 
