@@ -16,7 +16,6 @@ pub fn main() {
     console_error_panic_hook::set_once();
 
     let app = App::new();
-    let mut esp32: bool = false;
     app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
 
     // Set default
@@ -27,21 +26,26 @@ pub fn main() {
     app.global::<Espup>()
         .set_xtensa_rust_version("1.65.0.1".into());
 
-    app.global::<Espup>().on_esp32(move || {
-        esp32 = !esp32;
-        println!("Esp32 updated: {}", esp32);
+    // Button callback
+    app.global::<Espup>().on_install({
+        let ui_handle = app.as_weak();
+        move || {
+            println!("Install button clicked");
+            // println!("Button pressed");
+            let ui = ui_handle.unwrap();
+            let esp32 = ui.global::<Espup>().get_esp32_value();
+            println!("ESP32: {}", esp32);
+        }
     });
 
-    // Button callback
-    // let ui_handle = app.as_weak();
-    app.global::<Espup>().on_install(move || {
-        println!("Install clicked");
-        // println!("Button pressed");
-        // let ui = ui_handle.unwrap();
-        // println!("ESP32: {}", ui.get_esp32());
-        // let esp32 = ui.global::<InstallPage>().get_esp32();
-        // println!("Esp32: {}", ui.global::<Espup>().get_esp32());
-        // println!("Esp32: {}", esp32);
+    app.global::<Espup>().on_esp32({
+        let ui_handle = app.as_weak();
+        move || {
+            let ui = ui_handle.unwrap();
+            let esp32 = ui.global::<Espup>().get_esp32_value();
+            ui.global::<Espup>().set_esp32_value(!esp32);
+            println!("Esp32 updated: {}", !esp32);
+        }
     });
 
     app.run();
