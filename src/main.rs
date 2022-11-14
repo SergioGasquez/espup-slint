@@ -36,13 +36,15 @@ pub fn main() -> Result<()> {
 
     // Set defaults
     app.global::<InstallArgs>()
+        .set_xtensa_rust_version(latest_xtensa_rust.clone().into());
+    app.global::<UpdateArgs>()
         .set_xtensa_rust_version(latest_xtensa_rust.into());
     app.global::<InstallArgs>()
         .set_default_host(host_triple.to_string().into());
     app.global::<InstallArgs>()
         .set_export_file(DEFAULT_EXPORT_FILE.into());
 
-    // Button callback
+    // Install callback
     app.global::<InstallArgs>().on_install({
         let ui_handle = app.as_weak();
         move || {
