@@ -5,7 +5,9 @@
 use anyhow::Result;
 use std::collections::HashSet;
 
-use espup::{host_triple::get_host_triple, install, targets::Target, InstallOpts};
+use espup::{
+    host_triple::get_host_triple, install, targets::Target, toolchain::rust::Crate, InstallOpts,
+};
 
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
@@ -21,6 +23,7 @@ pub fn main() -> Result<()> {
 
     let mut targets: HashSet<Target> = HashSet::new();
     let host_triple = get_host_triple(None)?;
+    let mut extra_crates: HashSet<Crate> = HashSet::new();
 
     let app = App::new();
     app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
@@ -55,6 +58,22 @@ pub fn main() -> Result<()> {
                 targets.insert(Target::ESP32C3);
             }
             println!("Targets: {:#?}", targets);
+
+            // Get extra crates
+            extra_crates.clear();
+            if ui.global::<Espup>().get_espflash_value() {
+                extra_crates.insert(Crate::new("espflash"));
+            }
+            if ui.global::<Espup>().get_cargo_espflash_value() {
+                extra_crates.insert(Crate::new("cargo-espflash"));
+            }
+            if ui.global::<Espup>().get_ldproxy_value() {
+                extra_crates.insert(Crate::new("ldproxy"));
+            }
+            if ui.global::<Espup>().get_sccache_value() {
+                extra_crates.insert(Crate::new("sccache"));
+            }
+            println!("Extra crates: {:#?}", extra_crates);
         }
     });
 

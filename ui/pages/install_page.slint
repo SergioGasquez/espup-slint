@@ -15,6 +15,11 @@ export global Espup := {
     property <bool> esp32s3-value: true;
     property <bool> esp32c2-value: true;
     property <bool> esp32c3-value: true;
+    // Crates
+    property <bool> espflash-value;
+    property <bool> cargo-espflash-value;
+    property <bool> ldproxy-value;
+    property <bool> sccache-value;
 
 
     callback install();
@@ -65,23 +70,22 @@ export InstallPage := Page {
         HorizontalBox {
             espflash := CheckBox {
                 text: "espflash";
-                checked: false;
+                checked <=> Espup.espflash-value;
             }
 
             cargo-espflash := CheckBox {
                 text: "cargo-espflash";
-                checked: false;
+                checked <=> Espup.cargo-espflash-value;
             }
 
             ldproxy := CheckBox {
                 text: "ldproxy";
-                checked: false;
-                // CHECK IF ESP-IDF
+                checked <=> Espup.ldproxy-value;
             }
 
             sccache := CheckBox {
                 text: "sccache";
-                checked: false;
+                checked <=> Espup.sccache-value;
             }
         }
 
