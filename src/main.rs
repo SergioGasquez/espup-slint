@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-Slint-commercial
 #![deny(unsafe_code)]
 
+use anyhow::Result;
 use std::collections::HashSet;
 
-use espup::targets::Target;
+use espup::{host_triple::get_host_triple, install, targets::Target, InstallOpts};
 
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
@@ -12,23 +13,23 @@ use wasm_bindgen::prelude::*;
 slint::include_modules!();
 
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen(start))]
-pub fn main() {
+pub fn main() -> Result<()> {
     // This provides better error messages in debug mode.
     // It's disabled in release mode so it doesn't bloat up the file size.
     #[cfg(all(debug_assertions, target_arch = "wasm32"))]
     console_error_panic_hook::set_once();
 
     let mut targets: HashSet<Target> = HashSet::new();
+    let host_triple = get_host_triple(None)?;
+
     let app = App::new();
     app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
 
-    // Set default
-    // println!(
-    //     "Xtensa Version: {}",
-    //     app.global::<Espup>().get_xtensa_rust_version()
-    // );
+    // Set defaults
     app.global::<Espup>()
         .set_xtensa_rust_version("1.65.0.1".into());
+    app.global::<Espup>()
+        .set_default_host(host_triple.to_string().into());
 
     // Button callback
     app.global::<Espup>().on_install({
@@ -58,4 +59,5 @@ pub fn main() {
     });
 
     app.run();
+    Ok(())
 }

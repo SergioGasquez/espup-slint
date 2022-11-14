@@ -1131,6 +1131,7 @@ dependencies = [
 name = "espup-slint"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "espup",
  "slint",
  "slint-build",
