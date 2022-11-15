@@ -1,18 +1,35 @@
 // Copyright © SixtyFPS GmbH <info@slint-ui.com>
 // SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-Slint-commercial
 
-import { Button, GroupBox } from "std-widgets.slint";
+import { Button, GroupBox, ComboBox } from "std-widgets.slint";
 import { Page } from "page.slint";
+
+
+export global UninstallArgs := {
+    property <string> log-level: "info";
+
+
+    callback uninstall();
+}
 
 export UninstallPage := Page {
     title: "Uninstall";
     description: "Allows to uninstall the toolchains required for developing applications in Rust for Espressif SoC's.";
-    callback uninstall();
+
+    GroupBox {
+        title: "Log Level";
+        vertical-stretch: 0;
+        ComboBox {
+            current-value <=> UninstallArgs.log-level;
+            model: ["debug", "info", "warn", "error"];
+        }
+    }
+
     GroupBox {
         Button {
             text: "Uninstall";
             clicked => {
-                uninstall();
+                UninstallArgs.uninstall();
             }
         }
     }

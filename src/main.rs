@@ -7,7 +7,7 @@ use std::{collections::HashSet, path::PathBuf};
 
 use espup::{
     host_triple::get_host_triple, install, targets::Target, toolchain::rust::Crate,
-    toolchain::rust::XtensaRust, InstallOpts,
+    toolchain::rust::XtensaRust, InstallOpts, UninstallOpts, UpdateOpts,
 };
 
 // TODO: Get this from the espup
@@ -40,6 +40,8 @@ pub fn main() -> Result<()> {
     app.global::<UpdateArgs>()
         .set_xtensa_rust_version(latest_xtensa_rust.into());
     app.global::<InstallArgs>()
+        .set_default_host(host_triple.to_string().into());
+    app.global::<UpdateArgs>()
         .set_default_host(host_triple.to_string().into());
     app.global::<InstallArgs>()
         .set_export_file(DEFAULT_EXPORT_FILE.into());
@@ -130,6 +132,51 @@ pub fn main() -> Result<()> {
                 toolchain_version: Some(xtensa_rust_version),
             };
             println!("Install options: {:#?}", opts);
+            // install(opts);
+        }
+    });
+
+    // Update callback
+    app.global::<UpdateArgs>().on_update({
+        let ui_handle = app.as_weak();
+        move || {
+            println!("Update button clicked");
+            let ui = ui_handle.unwrap();
+
+            // Host triple
+            let host_triple = ui.global::<UpdateArgs>().get_default_host();
+
+            // Log Level
+            let log_level = ui.global::<UpdateArgs>().get_log_level().to_string();
+
+            // Xtensa Rust Toolhain version
+            let xtensa_rust_version = ui
+                .global::<UpdateArgs>()
+                .get_xtensa_rust_version()
+                .to_string();
+
+            let opts = UpdateOpts {
+                default_host: Some(host_triple.into()),
+                log_level,
+                toolchain_version: Some(xtensa_rust_version),
+            };
+            println!("Update options: {:#?}", opts);
+            // install(opts);
+        }
+    });
+
+    // Uninstall callback
+    app.global::<UninstallArgs>().on_uninstall({
+        let ui_handle = app.as_weak();
+        move || {
+            println!("Uninstall button clicked");
+            let ui = ui_handle.unwrap();
+
+            // Log Level
+            let log_level = ui.global::<UninstallArgs>().get_log_level().to_string();
+
+            let opts = UninstallOpts { log_level };
+            println!("Uninstall options: {:#?}", opts);
             // install(opts);
         }
     });

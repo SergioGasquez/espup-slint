@@ -8,7 +8,7 @@ import { Page } from "page.slint";
 export global UpdateArgs := {
     property <string> xtensa-rust-version;
     property <string> log-level: "info";
-
+    property <string> default-host;
 
     callback update();
 }
@@ -25,6 +25,16 @@ export UpdatePage := Page {
             text <=> UpdateArgs.xtensa-rust-version;
         }
     }
+
+    GroupBox {
+        title: "Default Host";
+        vertical-stretch: 0;
+        ComboBox {
+            current-value <=> UpdateArgs.default-host;
+            model: [ "x86_64-unknown-linux", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "aarch64-apple-darwin","x86_64-pc-windows-msvc", "x86_64-pc-windows-gnu",];
+        }
+    }
+
     GroupBox {
         title: "Log Level";
         vertical-stretch: 0;
