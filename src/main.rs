@@ -70,6 +70,9 @@ pub fn main() -> Result<()> {
             if ui.global::<InstallArgs>().get_cargo_espflash_value() {
                 selected_crates.insert(Crate::new("cargo-espflash"));
             }
+            if ui.global::<InstallArgs>().get_cargo_generate_value() {
+                selected_crates.insert(Crate::new("cargo-generate"));
+            }
             if ui.global::<InstallArgs>().get_ldproxy_value() {
                 selected_crates.insert(Crate::new("ldproxy"));
             }

@@ -19,9 +19,9 @@ export global InstallArgs := {
     // Crates
     property <bool> espflash-value;
     property <bool> cargo-espflash-value;
+    property <bool> cargo-generate-value;
     property <bool> ldproxy-value;
     property <bool> sccache-value;
-
 
     callback install();
 }
@@ -77,6 +77,11 @@ export InstallPage := Page {
             cargo-espflash := CheckBox {
                 text: "cargo-espflash";
                 checked <=> InstallArgs.cargo-espflash-value;
+            }
+
+            cargo-generate := CheckBox {
+                text: "cargo-generate";
+                checked <=> InstallArgs.cargo-generate-value;
             }
 
             ldproxy := CheckBox {
