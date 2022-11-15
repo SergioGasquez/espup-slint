@@ -1,5 +1,3 @@
-// Copyright © SixtyFPS GmbH <info@slint-ui.com>
-// SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-Slint-commercial
 #![deny(unsafe_code)]
 
 use anyhow::Result;
@@ -16,18 +14,9 @@ const DEFAULT_EXPORT_FILE: &str = "export-esp.ps1";
 #[cfg(not(windows))]
 const DEFAULT_EXPORT_FILE: &str = "export-esp.sh";
 
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
-
 slint::include_modules!();
 
-#[cfg_attr(target_arch = "wasm32", wasm_bindgen(start))]
 pub fn main() -> Result<()> {
-    // This provides better error messages in debug mode.
-    // It's disabled in release mode so it doesn't bloat up the file size.
-    #[cfg(all(debug_assertions, target_arch = "wasm32"))]
-    console_error_panic_hook::set_once();
-
     let host_triple = get_host_triple(None)?;
     let latest_xtensa_rust = XtensaRust::get_latest_version()?;
 
@@ -35,16 +24,18 @@ pub fn main() -> Result<()> {
     app.set_espup_ui_version(env!("CARGO_PKG_VERSION").into());
 
     // Set defaults
+    // Install
     app.global::<InstallArgs>()
         .set_xtensa_rust_version(latest_xtensa_rust.clone().into());
-    app.global::<UpdateArgs>()
-        .set_xtensa_rust_version(latest_xtensa_rust.into());
     app.global::<InstallArgs>()
-        .set_default_host(host_triple.to_string().into());
-    app.global::<UpdateArgs>()
         .set_default_host(host_triple.to_string().into());
     app.global::<InstallArgs>()
         .set_export_file(DEFAULT_EXPORT_FILE.into());
+    // Update
+    app.global::<UpdateArgs>()
+        .set_xtensa_rust_version(latest_xtensa_rust.into());
+    app.global::<UpdateArgs>()
+        .set_default_host(host_triple.to_string().into());
 
     // Install callback
     app.global::<InstallArgs>().on_install({
@@ -161,7 +152,7 @@ pub fn main() -> Result<()> {
                 toolchain_version: Some(xtensa_rust_version),
             };
             println!("Update options: {:#?}", opts);
-            // install(opts);
+            // update(opts);
         }
     });
 
@@ -177,7 +168,7 @@ pub fn main() -> Result<()> {
 
             let opts = UninstallOpts { log_level };
             println!("Uninstall options: {:#?}", opts);
-            // install(opts);
+            // uninstall(opts);
         }
     });
 
