@@ -5,7 +5,7 @@ use std::{collections::HashSet, path::PathBuf};
 
 use espup::{
     host_triple::get_host_triple, install, targets::Target, toolchain::rust::Crate,
-    toolchain::rust::XtensaRust, InstallOpts, UninstallOpts, UpdateOpts,
+    toolchain::rust::XtensaRust, uninstall, update, InstallOpts, UninstallOpts, UpdateOpts,
 };
 
 // TODO: Get this from the espup
@@ -123,7 +123,7 @@ pub fn main() -> Result<()> {
                 toolchain_version: Some(xtensa_rust_version),
             };
             println!("Install options: {:#?}", opts);
-            // install(opts);
+            install(opts);
         }
     });
 
@@ -152,7 +152,7 @@ pub fn main() -> Result<()> {
                 toolchain_version: Some(xtensa_rust_version),
             };
             println!("Update options: {:#?}", opts);
-            // update(opts);
+            update(opts);
         }
     });
 
@@ -168,7 +168,7 @@ pub fn main() -> Result<()> {
 
             let opts = UninstallOpts { log_level };
             println!("Uninstall options: {:#?}", opts);
-            // uninstall(opts);
+            uninstall(opts);
         }
     });
 
